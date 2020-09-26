@@ -58,7 +58,7 @@ jobs:
     - name: Change image
       run: |
         cd env/overlays/test/
-        kustomize edit set image XXX=nginx:$CIRCLE_SHA1
+        kustomize edit set image XXX=nginx:$GITHUB_SHA
           
     - name: Create Pull Request
       id: cpr
@@ -66,11 +66,11 @@ jobs:
       with:
         path: "env"
         token: ${{ secrets.PAT }}
-        commit-message: Update report
+        commit-message: Update app
         committer: GitHub <noreply@github.com>
         author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
         signoff: false
-        branch: example-patches
+        branch: app-$GITHUB_SHA
         delete-branch: true
         title: '[Example] Update report'
         body: |
@@ -81,5 +81,4 @@ jobs:
           [1]: https://github.com/peter-evans/create-pull-request
         labels: |
           automated pr
-        milestone: 1
         draft: false
