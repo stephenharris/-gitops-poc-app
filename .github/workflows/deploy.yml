@@ -15,14 +15,22 @@ jobs:
       run: |
         opsys=linux  # or darwin, or windows
         curl -s https://api.github.com/repos/kubernetes-sigs/kustomize/releases |\
-            grep browser_download |\
-            grep $opsys |\
-            cut -d '"' -f 4 |\
-            head -n 1 |\
-            xargs curl -O -L
-        ls
-        mv kustomize_*_${opsys}_amd64 kustomize
+          grep browser_download |\
+          grep $opsys |\
+          cut -d '"' -f 4 |\
+          grep /kustomize/v$version |\
+          sort | tail -n 1 |\
+          xargs curl -s -O -L
+
+          if [ -e ./kustomize_v*_${opsys}_amd64.tar.gz ]; then
+            tar xzf ./kustomize_v*_${opsys}_amd64.tar.gz
+          else
+            echo "Error: kustomize binary with the version $version does not exist!"
+            exit 1
+          fi
+        ./kustomize version
         chmod u+x kustomize
+        kustomize version
 
     - name: Checkout env repo
       run: git clone git@github.com:stephenharris/gitops-poc-env.git env
