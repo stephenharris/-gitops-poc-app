@@ -70,11 +70,11 @@ jobs:
         committer: GitHub <noreply@github.com>
         author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
         signoff: false
-        branch: "app-$GITHUB_SHA"
+        branch: "app-${{env.GITHUB_SHA}}"
         delete-branch: true
-        title: "[test] Updating app to ${{ env.GITHUB_SHA }}"
+        title: "[test] Updating app to ${{env.GITHUB_SHA}}"
         body: |
-          Update app to version ${{ env.GITHUB_SHA }}
+          "Update app to version ${{env.GITHUB_SHA}}""
         labels: |
           env:test
           app:app
