@@ -72,9 +72,10 @@ jobs:
         signoff: false
         branch: "app-$GITHUB_SHA"
         delete-branch: true
-        title: "[test] Updating app to $GITHUB_SHA"
+        title: "[test] Updating app to ${{ env.GITHUB_SHA }}"
         body: |
-          Update app to version $GITHUB_SHA
+          Update app to version ${{ env.GITHUB_SHA }}
         labels: |
-          env:test app:app
+          env:test
+          app:app
         draft: false
