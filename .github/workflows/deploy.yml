@@ -1,4 +1,4 @@
-name: Deploy to WordPress.org
+name: Create pull request on env repo
 on:
   push:
     branches:
@@ -7,7 +7,7 @@ on:
     - "*"
 jobs:
   createPullRequest:
-    name: New tag
+    name: Create PR
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
@@ -20,6 +20,7 @@ jobs:
             cut -d '"' -f 4 |\
             head -n 1 |\
             xargs curl -O -L
+        ls
         mv kustomize_*_${opsys}_amd64 kustomize
         chmod u+x kustomize
 
