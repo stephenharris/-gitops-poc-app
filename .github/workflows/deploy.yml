@@ -73,9 +73,9 @@ jobs:
         signoff: false
         branch: "app-${{env.APP_VER}}-${{env.COMMIT_SHA}}-${{ github.sha }}"
         delete-branch: true
-        title: "[test] Updating app to ${{env.APP_VER}}-${{env.COMMIT_SHA}} ${{ github.sha }}"
+        title: "[test] Updating app to ${{env.APP_VER}} / ${{ github.sha }}"
         body: |
-          Update app to version ${{env.APP_VER}}-${{ github.sha }}
+          Update app to version ${{env.APP_VER}} / ${{ github.sha }}
         labels: |
           env:test
           app:app
