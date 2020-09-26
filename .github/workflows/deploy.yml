@@ -5,6 +5,10 @@ on:
     - "master"
     tags:
     - "*"
+env:
+  APP_VER: "1.2.3"
+  COMMIT_SHA: "$GITHUB_SHA"
+    
 jobs:
   createPullRequest:
     name: Create PR
@@ -70,11 +74,11 @@ jobs:
         committer: GitHub <noreply@github.com>
         author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
         signoff: false
-        branch: "app-${{env.GITHUB_SHA}}"
+        branch: "app-${{env.APP_VER}}-${{env.COMMIT_SHA}}-${{env.GITHUB_SHA}}"
         delete-branch: true
-        title: "[test] Updating app to ${{env.GITHUB_SHA}}"
+        title: "[test] Updating app to ${{env.APP_VER}}-${{env.COMMIT_SHA}} ${{env.GITHUB_SHA}}"
         body: |
-          "Update app to version ${{env.GITHUB_SHA}}""
+          Update app to version ${{env.APP_VER}}-${{env.COMMIT_SHA}}
         labels: |
           env:test
           app:app
