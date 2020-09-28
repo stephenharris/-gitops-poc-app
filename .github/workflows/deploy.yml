@@ -61,6 +61,7 @@ jobs:
         export APP_VERSION=$(cat version.txt)
         cd env/overlays/test/
         kustomize edit set image argoproj/rollouts-demo=argoproj/rollouts-demo:$APP_VERSION
+        echo "::set-env name=APP_VERSION::$APP_VERSION"
           
     - name: Create Pull Request
       id: cpr
