@@ -76,7 +76,7 @@ jobs:
         delete-branch: true
         title: "[test] Updating app to ${{env.APP_VER}} / ${{ github.sha }}"
         body: |
-          Update app to version ${{env.APP_VER}} / ${{ github.sha }}
+          Update app to version ${{env.APP_VERSION}} / ${{ github.sha }}
         labels: |
           env:test
           app:app
