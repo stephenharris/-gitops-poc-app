@@ -38,7 +38,8 @@ jobs:
         repository: 'stephenharris/gitops-poc-env'
         ref: 'master'
         path: 'env'
-        token: ${{ secrets.PAT }} 
+        ssh-key: ${{ secrets.DEPLOY_KEY }}
+        persist-credentials: false
 
     - name: Create app version
       run: echo "::set-env name=APP_VER::1.3.6"
