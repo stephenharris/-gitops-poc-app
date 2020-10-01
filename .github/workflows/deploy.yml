@@ -35,22 +35,9 @@ jobs:
 
     - uses: actions/checkout@v2
       with:
-        # Repository name with owner. For example, actions/checkout
-        # Default: ${{ github.repository }}
         repository: 'stephenharris/gitops-poc-env'
         ref: 'master'
         path: 'env'
-
-        # Personal access token (PAT) used to fetch the repository. The PAT is configured
-        # with the local git config, which enables your scripts to run authenticated git
-        # commands. The post-job step removes the PAT.
-        #
-        # We recommend using a service account with the least permissions necessary. Also
-        # when generating a new PAT, select the least scopes necessary.
-        #
-        # [Learn more about creating and using encrypted secrets](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets)
-        #
-        # Default: ${{ github.token }}
         token: ${{ secrets.PAT }} 
 
     - name: Create app version
@@ -60,7 +47,7 @@ jobs:
       run: |
         export APP_VERSION=$(cat version.txt)
         cd env/overlays/test/
-        kustomize edit set image argoproj/rollouts-demo=argoproj/rollouts-demo:$APP_VERSION
+        kustomize edit set image stephenharris13/stubapi=stephenharris13/stubapi:$APP_VERSION
         echo "::set-env name=APP_VERSION::$APP_VERSION"
           
     - name: Create Pull Request
@@ -73,9 +60,9 @@ jobs:
         committer: GitHub <noreply@github.com>
         author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
         signoff: false
-        branch: "app-${{env.APP_VER}}-${{env.COMMIT_SHA}}-${{ github.sha }}"
+        branch: "app-${{env.APP_VERSION}}-${{env.COMMIT_SHA}}-${{ github.sha }}"
         delete-branch: true
-        title: "[test] Updating app to ${{env.APP_VER}} / ${{ github.sha }}"
+        title: "[test] Updating app to ${{env.APP_VERSION}} / ${{ github.sha }}"
         body: |
           Update app to version ${{env.APP_VERSION}} / ${{ github.sha }}
         labels: |
