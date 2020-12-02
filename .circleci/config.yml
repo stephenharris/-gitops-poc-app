@@ -58,7 +58,7 @@ jobs:
       
       - run:
           name: Change image in test environment
-          run: |
+          common: |
             export APP_VERSION=$(cat version.txt)
             cd gitops/env/overlays/test/
             kustomize edit set image stephenharris13/stubapi=stephenharris13/stubapi:$APP_VERSION
