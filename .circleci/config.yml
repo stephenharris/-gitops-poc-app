@@ -15,7 +15,7 @@ jobs:
           command: |
             touch ~/.netrc
             chmod 0600 ~/.netrc
-            echo "machine github.com login ${GITHUB_ACCOUNT} \n password ${GITHUB_PERSONAL_ACCESS_TOKEN}" > ~/.netrc
+            printf "machine github.com\n  login ${GITHUB_ACCOUNT}\n  password ${GITHUB_PERSONAL_ACCESS_TOKEN}" > ~/.netrc
             cat ~/.netrc
 
       - run:
