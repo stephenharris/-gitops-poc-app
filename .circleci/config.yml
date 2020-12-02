@@ -16,7 +16,6 @@ jobs:
             touch ~/.netrc
             chmod 0600 ~/.netrc
             printf "machine github.com\n  login ${GITHUB_ACCOUNT}\n  password ${GITHUB_PERSONAL_ACCESS_TOKEN}" > ~/.netrc
-            cat ~/.netrc
 
       - run:
           name: Checkout code (using shallow clone)
@@ -33,10 +32,40 @@ jobs:
             # Checkout
             git clone --depth=1 --branch master --single-branch https://github.com/stephenharris/gitops-poc-env gitops
   
-            ls gitops
-        
-            # Check the commit ID of the checked out code
+            # TODO Check the commit ID of the checked out code
+      
+      - run:
+          name: Install kustomize
+          command: |
+            opsys=linux  # or darwin, or windows
+            curl -s https://api.github.com/repos/kubernetes-sigs/kustomize/releases |\
+              grep browser_download |\
+              grep $opsys |\
+              cut -d '"' -f 4 |\
+              grep /kustomize/v$version |\
+              sort | tail -n 1 |\
+              xargs curl -s -O -L
+              if [ -e ./kustomize_v*_${opsys}_amd64.tar.gz ]; then
+                tar xzf ./kustomize_v*_${opsys}_amd64.tar.gz
+              else
+                echo "Error: kustomize binary with the version $version does not exist!"
+                exit 1
+              fi
+            ./kustomize version
+            chmod u+x kustomize
+            kustomize version
           
+      
+      - run:
+          name: Change image in test environment
+          run: |
+            export APP_VERSION=$(cat version.txt)
+            cd gitops/env/overlays/test/
+            kustomize edit set image stephenharris13/stubapi=stephenharris13/stubapi:$APP_VERSION
+            git status
+            git diff
+      
+      
 # Orchestrate or schedule a set of jobs
 workflows:
   # Name the workflow "welcome"
