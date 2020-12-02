@@ -31,7 +31,7 @@ jobs:
             git config --global gc.auto 0 || true
         
             # Checkout
-            git clone --depth=1 --branch master --single-branch github.com/stephenharris/gitops-poc-env gitops
+            git clone --depth=1 --branch master --single-branch https://github.com/stephenharris/gitops-poc-env gitops
   
             ls gitops
         
