@@ -4,9 +4,11 @@ version: 2.1
 orbs:
   # Declare a dependency on the welcome-orb
   welcome: circleci/welcome-orb@0.4.1
+  node: circleci/node@3.0.0
 
 jobs:
   gitops-checkout:
+    executor: node/default
     steps:
       - run:
         name: Configure to clone Private Repository on GitHub
