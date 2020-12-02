@@ -11,32 +11,32 @@ jobs:
     executor: node/default
     steps:
       - run:
-        name: Configure to clone Private Repository on GitHub
-        command: |
-          touch ~/.netrc
-          chmod 0600 ~/.netrc
-          echo "machine github.com login ${GITHUB_ACCOUNT} \n password ${GITHUB_PERSONAL_ACCESS_TOKEN}" > ~/.netrc
-          cat ~/.netrc
+          name: Configure to clone Private Repository on GitHub
+          command: |
+            touch ~/.netrc
+            chmod 0600 ~/.netrc
+            echo "machine github.com login ${GITHUB_ACCOUNT} \n password ${GITHUB_PERSONAL_ACCESS_TOKEN}" > ~/.netrc
+            cat ~/.netrc
 
       - run:
-        name: Checkout code (using shallow clone)
-        command: |
-          # Workaround old docker images with incorrect $HOME
-          # check https://github.com/docker/docker/issues/2968 for details
-          if [ "${HOME}" = "/" ]
-          then
-            export HOME=$(getent passwd $(id -un) | cut -d: -f6)
-          fi
-      
-          git config --global gc.auto 0 || true
-      
-          # Checkout
-          git clone --depth=1 --branch master --single-branch github.com/stephenharris/gitops-poc-env gitops
-
-          ls gitops
-      
-          # Check the commit ID of the checked out code
+          name: Checkout code (using shallow clone)
+          command: |
+            # Workaround old docker images with incorrect $HOME
+            # check https://github.com/docker/docker/issues/2968 for details
+            if [ "${HOME}" = "/" ]
+            then
+              export HOME=$(getent passwd $(id -un) | cut -d: -f6)
+            fi
         
+            git config --global gc.auto 0 || true
+        
+            # Checkout
+            git clone --depth=1 --branch master --single-branch github.com/stephenharris/gitops-poc-env gitops
+  
+            ls gitops
+        
+            # Check the commit ID of the checked out code
+          
 # Orchestrate or schedule a set of jobs
 workflows:
   # Name the workflow "welcome"
