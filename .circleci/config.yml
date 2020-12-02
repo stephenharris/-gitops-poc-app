@@ -37,24 +37,10 @@ jobs:
       - run:
           name: Install kustomize
           command: |
-            opsys=linux  # or darwin, or windows
-            curl -s https://api.github.com/repos/kubernetes-sigs/kustomize/releases |\
-              grep browser_download |\
-              grep $opsys |\
-              cut -d '"' -f 4 |\
-              grep /kustomize/v$version |\
-              sort | tail -n 1 |\
-              xargs curl -s -O -L
-              if [ -e ./kustomize_v*_${opsys}_amd64.tar.gz ]; then
-                tar xzf ./kustomize_v*_${opsys}_amd64.tar.gz
-              else
-                echo "Error: kustomize binary with the version $version does not exist!"
-                exit 1
-              fi
-            ./kustomize version
-            chmod u+x kustomize
-            kustomize version
-          
+            KUSTOMIZE_VERSION=3.8.7
+            curl -L -o /usr/local/bin/kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v${KUSTOMIZE_VERSION}/kustomize_${KUSTOMIZE_VERSION}_linux_amd64
+            chmod +x /usr/local/bin/kustomize
+            kustomize version          
       
       - run:
           name: Change image in test environment
