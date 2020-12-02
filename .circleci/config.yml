@@ -38,16 +38,16 @@ jobs:
           name: Install kustomize
           command: |
             KUSTOMIZE_VERSION=3.8.7
-            curl -L -o /usr/local/bin/kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v${KUSTOMIZE_VERSION}/kustomize_${KUSTOMIZE_VERSION}_linux_amd64
-            chmod +x /usr/local/bin/kustomize
-            kustomize version          
+            curl -L -o ./kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v${KUSTOMIZE_VERSION}/kustomize_${KUSTOMIZE_VERSION}_linux_amd64
+            chmod +x ./kustomize
+            ./kustomize version          
       
       - run:
           name: Change image in test environment
           command: |
             export APP_VERSION=$(cat version.txt)
             cd gitops/env/overlays/test/
-            kustomize edit set image stephenharris13/stubapi=stephenharris13/stubapi:$APP_VERSION
+            ./kustomize edit set image stephenharris13/stubapi=stephenharris13/stubapi:$APP_VERSION
             git status
             git diff
       
